@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Galilea - Coffee Shop in Bulacan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Customer View -->
+    <div id="customerView">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+    <img src="cafe.jpg" alt="Cafe Galilea Logo" class="logo-img">
+    <div>
+        <h1>Café Galilea</h1>
+        <p>Coffee Shop in Bulacan</p>
+    </div>
+</div>
+
+                    <div class="header-buttons">
+                        <button class="btn btn-primary" onclick="openCart()" id="cartButton">
+                            🛒 Cart (<span id="cartCount">0</span>)
+                            <span id="cartBadge" class="cart-badge hidden">0</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="showAdminLogin()">👤 Admin</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h2>Brewing Happiness for 10 Years</h2>
+                <p>Good food, great coffee, and cozy moments</p>
+                <div class="hero-info">
+                    <div class="info-box">⏰ Mon-Thu: 11AM-11PM</div>
+                    <div class="info-box">⏰ Fri-Sun: 11AM-1AM</div>
+                    <div class="info-box">📍 4 Branches</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section">
+            <div class="container">
+                <h2 class="section-title">Our Signature Favorites</h2>
+                <p class="section-subtitle">Taste the flavors that keep our guests coming back</p>
+
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search our menu..." onkeyup="filterMenu()">
+                </div>
+
+                <div class="categories" id="categories"></div>
+
+                <div class="menu-grid" id="menuGrid"></div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3>☕ Café Galilea</h3>
+                        <p>Good food, great coffee, and cozy moments</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Contact</h3>
+                        <p>📧 cafegalilea@yahoo.com</p>
+                        <p>📞 0949 195 9421</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>Hours</h3>
+                        <p>Mon-Thu: 11AM-11PM</p>
+                        <p>Fri-Sun: 11AM-1AM</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2020-2025 Cafe Galilea</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Cart</h2>
+                <button class="close-btn" onclick="closeCart()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div id="cartForm" class="hidden">
+                    <div class="form-group">
+                        <input type="text" id="customerName" placeholder="Your Name *" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="customerPhone" placeholder="Phone Number *" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="customerAddress" placeholder="Delivery Address *" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="customerBranch">
+                            <option value="Bustos">Bustos (Main)</option>
+                            <option value="Pulilan">Pulilan</option>
+                            <option value="San Ildefonso">San Ildefonso</option>
+                            <option value="Bocaue">Bocaue</option>
+                        </select>
+                    </div>
+                    <div class="total-box">
+                        <div class="total-row">
+                            <span>Total:</span>
+                            <span class="total-amount" id="totalAmount">₱0</span>
+                        </div>
+                    </div>
+                    <button class="btn-order" onclick="placeOrder()">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminLogin" class="admin-login hidden">
+        <div class="login-box">
+            <div class="login-icon">☕</div>
+            <h2>Admin Login</h2>
+            <input type="password" id="adminPassword" placeholder="Enter password" onkeypress="handleAdminLoginKeyPress(event)">
+            <button class="btn btn-primary login-btn" onclick="adminLoginSubmit()">Login</button>
+            <button class="btn btn-secondary back-btn" onclick="backToStore()">Back to Store</button>
+            <p class="password-hint">Password: admin123</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard hidden">
+        <div class="admin-header">
+            <div class="container">
+                <div class="admin-header-content">
+                    <h1>Admin Dashboard</h1>
+                    <button class="btn btn-primary" onclick="backToStore()">Back to Store</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container admin-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">💰 Total Revenue</div>
+                    <div class="stat-value revenue-value" id="totalRevenue">₱0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">📦 Total Orders</div>
+                    <div class="stat-value orders-value" id="totalOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">⚠️ Pending</div>
+                    <div class="stat-value pending-value" id="pendingOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">✅ Completed</div>
+                    <div class="stat-value completed-value" id="completedOrders">0</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('orders')">📦 Orders</button>
+                <button class="tab-btn" onclick="switchTab('menu')">📝 Menu</button>
+            </div>
+
+            <div id="ordersTab">
+                <div id="ordersList"></div>
+            </div>
+
+            <div id="menuTab" class="hidden">
+                <div id="menuList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
